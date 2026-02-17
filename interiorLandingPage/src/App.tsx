@@ -6,6 +6,7 @@ import ServicesPage from './pages/ServicesPage'
 import AboutPage from './pages/AboutPage'
 import ContactPage from './pages/ContactPage'
 import OffersPage from './pages/OffersPage'
+import SocialButtons from './components/home/SocialButtons' 
 
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
           <Route path="contact" element={<ContactPage />} />
         </Route>
       </Routes>
+      <SocialButtons />
     </BrowserRouter>
   )
 }
