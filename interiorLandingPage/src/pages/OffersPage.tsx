@@ -60,37 +60,45 @@ export default function OffersPage() {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
                 whileHover={{ y: -8 }}
-                className="relative h-96 rounded-xl overflow-hidden shadow-lg border border-gray-200 hover:border-amber-500 hover:shadow-xl transition-all"
+                className="relative h-96 rounded-xl overflow-hidden shadow-lg border border-gray-200 hover:border-amber-500 hover:shadow-xl transition-all group"
               >
                 <img
                   src={offer.image}
                   alt={offer.name}
-                  className="absolute inset-0 w-full h-full object-cover"
+                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/10" />
-                <div className="absolute inset-0 flex flex-col justify-end p-6">
-                  <span className="inline-block px-3 py-1 bg-amber-500 text-white text-xs font-semibold rounded mb-3 w-max">
-                    Offer
+                
+                {/* Badge */}
+                <div className="absolute top-4 right-4 z-10">
+                  <span className="px-3 py-1 bg-amber-500 text-white text-xs font-semibold rounded-full shadow-lg">
+                    OFFER
                   </span>
-                  <h2 className="text-2xl font-bold text-white mb-1">{offer.name}</h2>
-                  <p className="text-sm text-gray-200 line-through mb-0.5">{offer.originalPrice}</p>
-                  <p className="text-3xl font-bold text-amber-400 mb-2">{offer.offerPrice}</p>
-                  <p className="text-sm text-gray-100 mb-3">{offer.desc}</p>
-                  <ul className="space-y-1.5 mb-4 text-sm text-gray-100">
+                </div>
+
+                <div className="absolute inset-0 flex flex-col justify-end p-6">
+                  <h2 className="text-2xl font-bold text-white mb-2">{offer.name}</h2>
+                  <p className="text-sm text-gray-200 mb-4">{offer.desc}</p>
+                  
+                  <ul className="space-y-2 mb-6 text-sm text-gray-100">
                     {offer.features.map((f) => (
                       <li key={f} className="flex items-center gap-2">
-                        <svg className="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+                        <svg className="w-4 h-4 text-amber-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                         </svg>
-                        {f}
+                        <span>{f}</span>
                       </li>
                     ))}
                   </ul>
+
                   <Link
                     to="/contact"
-                    className="inline-flex items-center justify-center px-5 py-2.5 bg-amber-500 text-white text-sm font-semibold rounded hover:bg-amber-600 transition-colors w-max"
+                    className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-amber-500 text-white text-sm font-semibold rounded-lg hover:bg-amber-600 transition-colors w-full group/link"
                   >
-                    Get Free Estimate
+                    <span>Get Free Estimate</span>
+                    <svg className="w-4 h-4 group-hover/link:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
                   </Link>
                 </div>
               </motion.div>
