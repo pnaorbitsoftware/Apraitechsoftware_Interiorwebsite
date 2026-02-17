@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 
-// Google Sheets Web App URL - Updated with your specific Apps Script URL
-const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbzBZzDf3bFFHyYYp9PtWL1dO5M_sEXHkx4akEJ6rKWXcS5EvxdUti42NmCK8die3eco/exec'
+// Google Sheets Web App URL - Updated with your new Apps Script URL
+const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbwROf5nGD864KLhVitjTMC-BoRlbIW-kKl9UUIxBAZqNIXfKiLTx6zuMWWraxg1bgpz/exec'
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -33,6 +33,7 @@ export default function ContactPage() {
           dateStyle: 'full',
           timeStyle: 'short'
         }),
+        sendEmail: true, // Flag to trigger email sending
       }
 
       // Send to Google Sheets
@@ -48,7 +49,7 @@ export default function ContactPage() {
       // Success message
       setSubmitStatus({
         type: 'success',
-        message: 'Thank you! Your request has been submitted successfully. We\'ll contact you within 24 hours.',
+        message: 'Thank you! Your request has been submitted successfully. A confirmation email has been sent to your email address. We\'ll contact you within 24 hours.',
       })
 
       // Clear form
