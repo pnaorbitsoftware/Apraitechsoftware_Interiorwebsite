@@ -44,7 +44,7 @@ export default function Footer() {
             <h4 className="text-white font-semibold mb-4">Contact</h4>
             <ul className="space-y-2 text-sm">
               <li>+91 98765 43210</li>
-              <li>contact@example.com</li>
+              <li>info@aparaitechsoftware.org</li>
             </ul>
           </div>
 
