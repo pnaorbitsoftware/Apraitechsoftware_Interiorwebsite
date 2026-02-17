@@ -48,7 +48,7 @@ export default function Navbar() {
         <nav className="flex items-center justify-between h-16 md:h-20">
           <Link to="/" className="flex items-center gap-2">
             <span className={`font-bold text-xl md:text-2xl ${isHomeAtTop ? 'text-white' : 'text-gray-900'}`}>
-              APARITECH INTERIOR 123
+              APARITECH INTERIOR
             </span>
           </Link>
 
