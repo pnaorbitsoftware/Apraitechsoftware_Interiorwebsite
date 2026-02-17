@@ -1,6 +1,9 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 
+// Google Sheets Web App URL - Updated with your specific Apps Script URL
+const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbzBZzDf3bFFHyYYp9PtWL1dO5M_sEXHkx4akEJ6rKWXcS5EvxdUti42NmCK8die3eco/exec'
+
 export default function ContactPage() {
   const [formData, setFormData] = useState({
     name: '',
@@ -9,10 +12,65 @@ export default function ContactPage() {
     message: '',
     package: '2BHK',
   })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState<{
+    type: 'success' | 'error' | null
+    message: string
+  }>({ type: null, message: '' })
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log('Form submitted:', formData)
+    setIsSubmitting(true)
+    setSubmitStatus({ type: null, message: '' })
+
+    try {
+      // Prepare data for Google Sheets with your specific sheet ID
+      const submissionData = {
+        ...formData,
+        sheetId: '1oDbowlIpJWwmF64CyDAL6GFeK8UTZlQ-KCnQlZoVips', // Your specific sheet ID
+        timestamp: new Date().toLocaleString('en-IN', { 
+          timeZone: 'Asia/Kolkata',
+          dateStyle: 'full',
+          timeStyle: 'short'
+        }),
+      }
+
+      // Send to Google Sheets
+      await fetch(GOOGLE_SHEETS_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(submissionData),
+      })
+
+      // Success message
+      setSubmitStatus({
+        type: 'success',
+        message: 'Thank you! Your request has been submitted successfully. We\'ll contact you within 24 hours.',
+      })
+
+      // Clear form
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        message: '',
+        package: '2BHK',
+      })
+
+      // Log for debugging (only visible in browser console)
+      console.log('Form submitted to sheet:', submissionData)
+    } catch (error) {
+      console.error('Error submitting form:', error)
+      setSubmitStatus({
+        type: 'error',
+        message: 'Something went wrong. Please try again or contact us directly.',
+      })
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const handleChange = (
@@ -254,6 +312,21 @@ export default function ContactPage() {
                 Fill in your details and we'll get back to you within 24 hours.
               </motion.p>
 
+              {/* Status Message */}
+              {submitStatus.type && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className={`mb-6 p-4 rounded-lg ${
+                    submitStatus.type === 'success' 
+                      ? 'bg-green-50 text-green-800 border border-green-200' 
+                      : 'bg-red-50 text-red-800 border border-red-200'
+                  }`}
+                >
+                  {submitStatus.message}
+                </motion.div>
+              )}
+
               <form onSubmit={handleSubmit} className="space-y-6">
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
@@ -273,7 +346,8 @@ export default function ContactPage() {
                     required
                     value={formData.name}
                     onChange={handleChange}
-                    className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none transition shadow-sm"
+                    disabled={isSubmitting}
+                    className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none transition shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
                     placeholder="John Doe"
                   />
                 </motion.div>
@@ -296,7 +370,8 @@ export default function ContactPage() {
                     required
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none transition shadow-sm"
+                    disabled={isSubmitting}
+                    className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none transition shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
                     placeholder="john@example.com"
                   />
                 </motion.div>
@@ -319,7 +394,8 @@ export default function ContactPage() {
                     required
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none transition shadow-sm"
+                    disabled={isSubmitting}
+                    className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none transition shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
                     placeholder="+91 98765 43210"
                   />
                 </motion.div>
@@ -340,7 +416,8 @@ export default function ContactPage() {
                     name="package"
                     value={formData.package}
                     onChange={handleChange}
-                    className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none transition shadow-sm appearance-none"
+                    disabled={isSubmitting}
+                    className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none transition shadow-sm appearance-none disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <option value="2BHK">2BHK</option>
                     <option value="3BHK">3BHK</option>
@@ -367,23 +444,37 @@ export default function ContactPage() {
                     rows={4}
                     value={formData.message}
                     onChange={handleChange}
-                    className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none transition shadow-sm resize-none"
+                    disabled={isSubmitting}
+                    className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none transition shadow-sm resize-none disabled:opacity-50 disabled:cursor-not-allowed"
                     placeholder="Tell us about your dream project..."
                   />
                 </motion.div>
 
                 <motion.button
                   type="submit"
+                  disabled={isSubmitting}
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 1, type: 'spring', stiffness: 200 }}
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="w-full px-8 py-5 bg-gradient-to-r from-amber-500 to-amber-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all"
+                  whileHover={{ scale: isSubmitting ? 1 : 1.03 }}
+                  whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
+                  className="w-full px-8 py-5 bg-gradient-to-r from-amber-500 to-amber-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Send Request
+                  {isSubmitting ? (
+                    <span className="flex items-center justify-center gap-2">
+                      <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      Submitting...
+                    </span>
+                  ) : (
+                    'Send Request'
+                  )}
                 </motion.button>
               </form>
+
+              {/* No link to view responses - Only accessible via Google Sheets login */}
             </motion.div>
           </div>
         </div>
