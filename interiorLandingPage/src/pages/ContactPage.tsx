@@ -15,45 +15,256 @@ export default function ContactPage() {
     console.log('Form submitted:', formData)
   }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
+  // Variants for staggered children animations
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
+      },
+    },
+  }
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: { type: 'spring', stiffness: 100 },
+    },
+  }
+
+  const floatVariants = {
+    initial: { y: 0 },
+    animate: {
+      y: [0, -10, 0],
+      transition: {
+        duration: 4,
+        repeat: Infinity,
+        ease: 'easeInOut',
+      },
+    },
+  }
+
+  // Encode address for Google Maps URL
+  const officeAddress = "Anand Nagar Colony, Anandnagar, Ashok Nagar Colony, Baramati, Maharashtra 413102"
+  const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(officeAddress)}`
+
   return (
-    <div className="pt-20 pb-16 md:pt-24 md:pb-24">
-      <section className="py-12 md:py-16 bg-gray-900 text-white">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-amber-50 pt-20 pb-16 md:pt-24 md:pb-24 overflow-hidden">
+      {/* Animated background blobs */}
+      <motion.div
+        className="fixed top-20 left-10 w-72 h-72 bg-amber-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 z-0"
+        animate={{
+          x: [0, 30, 0],
+          y: [0, 40, 0],
+        }}
+        transition={{
+          duration: 15,
+          repeat: Infinity,
+          ease: 'linear',
+        }}
+      />
+      <motion.div
+        className="fixed bottom-20 right-10 w-80 h-80 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 z-0"
+        animate={{
+          x: [0, -30, 0],
+          y: [0, -40, 0],
+        }}
+        transition={{
+          duration: 18,
+          repeat: Infinity,
+          ease: 'linear',
+        }}
+      />
+
+      {/* Header Section with new animation */}
+      <motion.section
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.6 }}
+        className="relative z-10 py-12 md:py-16"
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.h1
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: -30 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-3xl md:text-5xl font-bold mb-4"
+            transition={{ delay: 0.2, type: 'spring', stiffness: 50 }}
+            className="text-4xl md:text-6xl font-black mb-4 bg-gradient-to-r from-amber-600 to-blue-600 bg-clip-text text-transparent"
           >
-            CONTACT US
+            LET'S CONNECT
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-gray-300 max-w-2xl mx-auto"
+            transition={{ delay: 0.3 }}
+            className="text-gray-600 max-w-2xl mx-auto text-lg"
           >
-            Get a free consultation and estimate for your dream home interior.
+            Ready to transform your space? We're just a message away.
           </motion.p>
         </div>
-      </section>
+      </motion.section>
 
-      <section className="py-16 md:py-24">
+      {/* Main Content Section - Split screen layout */}
+      <section className="relative z-10 py-8 md:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+            {/* Left side - Info Panel with floating animation */}
             <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5 }}
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+              className="space-y-8 lg:sticky lg:top-24"
             >
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Get in Touch</h2>
+              <motion.div
+                variants={floatVariants}
+                initial="initial"
+                animate="animate"
+                className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-xl p-8 border border-white/20"
+              >
+                <motion.h2
+                  variants={itemVariants}
+                  className="text-2xl font-bold text-gray-800 mb-6"
+                >
+                  ✦ Reach Out
+                </motion.h2>
+                <motion.ul variants={itemVariants} className="space-y-6 text-gray-700">
+                  <motion.li variants={itemVariants} className="flex items-center gap-4 group">
+                    <div className="p-3 bg-amber-100 rounded-xl group-hover:bg-amber-200 transition-colors">
+                      <svg
+                        className="w-6 h-6 text-amber-600"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                        />
+                      </svg>
+                    </div>
+                    <a 
+                      href="tel:+916364326342" 
+                      className="text-lg hover:text-amber-600 transition-colors"
+                    >
+                      +91 6364326342
+                    </a>
+                  </motion.li>
+                  <motion.li variants={itemVariants} className="flex items-center gap-4 group">
+                    <div className="p-3 bg-amber-100 rounded-xl group-hover:bg-amber-200 transition-colors">
+                      <svg
+                        className="w-6 h-6 text-amber-600"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                        />
+                      </svg>
+                    </div>
+                    <a 
+                      href="mailto:interior@aparaitechsoftware.org" 
+                      className="text-lg hover:text-amber-600 transition-colors"
+                    >
+                      interior@aparaitechsoftware.org
+                    </a>
+                  </motion.li>
+                  <motion.li variants={itemVariants} className="flex items-center gap-4 group">
+                    <div className="p-3 bg-amber-100 rounded-xl group-hover:bg-amber-200 transition-colors">
+                      <svg
+                        className="w-6 h-6 text-amber-600"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                        />
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                        />
+                      </svg>
+                    </div>
+                    <a 
+                      href={mapsUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-lg hover:text-amber-600 transition-colors"
+                    >
+                      {officeAddress}
+                    </a>
+                  </motion.li>
+                </motion.ul>
+              </motion.div>
+
+              <motion.div
+                variants={itemVariants}
+                className="bg-gradient-to-br from-amber-500 to-blue-500 rounded-2xl shadow-xl p-8 text-white"
+              >
+                <h3 className="text-xl font-bold mb-3">🌟 Why choose us?</h3>
+                <p className="text-amber-50">
+                  We don't just design spaces, we create experiences. Our team brings
+                  your vision to life with personalized care and attention to every
+                  detail.
+                </p>
+              </motion.div>
+            </motion.div>
+
+            {/* Right side - Form Card with staggered animation */}
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="bg-white rounded-2xl shadow-2xl p-8 md:p-10 border border-gray-100"
+            >
+              <motion.h2
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.3 }}
+                className="text-2xl font-bold text-gray-800 mb-2"
+              >
+                Request a callback
+              </motion.h2>
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.4 }}
+                className="text-gray-500 mb-8"
+              >
+                Fill in your details and we'll get back to you within 24 hours.
+              </motion.p>
+
               <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                    Full Name *
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5 }}
+                >
+                  <label
+                    htmlFor="name"
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                  >
+                    Full Name <span className="text-amber-500">*</span>
                   </label>
                   <input
                     type="text"
@@ -62,13 +273,21 @@ export default function ContactPage() {
                     required
                     value={formData.name}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition"
-                    placeholder="Your name"
+                    className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none transition shadow-sm"
+                    placeholder="John Doe"
                   />
-                </div>
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                    Email Address *
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6 }}
+                >
+                  <label
+                    htmlFor="email"
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                  >
+                    Email Address <span className="text-amber-500">*</span>
                   </label>
                   <input
                     type="email"
@@ -77,13 +296,21 @@ export default function ContactPage() {
                     required
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition"
-                    placeholder="your@email.com"
+                    className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none transition shadow-sm"
+                    placeholder="john@example.com"
                   />
-                </div>
-                <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
-                    Phone Number *
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.7 }}
+                >
+                  <label
+                    htmlFor="phone"
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                  >
+                    Phone Number <span className="text-amber-500">*</span>
                   </label>
                   <input
                     type="tel"
@@ -92,12 +319,20 @@ export default function ContactPage() {
                     required
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition"
+                    className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none transition shadow-sm"
                     placeholder="+91 98765 43210"
                   />
-                </div>
-                <div>
-                  <label htmlFor="package" className="block text-sm font-medium text-gray-700 mb-2">
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.8 }}
+                >
+                  <label
+                    htmlFor="package"
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                  >
                     Property Type
                   </label>
                   <select
@@ -105,16 +340,26 @@ export default function ContactPage() {
                     name="package"
                     value={formData.package}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition"
+                    className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none transition shadow-sm appearance-none"
                   >
                     <option value="2BHK">2BHK</option>
                     <option value="3BHK">3BHK</option>
                     <option value="4BHK">4BHK</option>
+                    <option value="Villa">Villa</option>
+                    <option value="Office">Office Space</option>
                   </select>
-                </div>
-                <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                    Message
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.9 }}
+                >
+                  <label
+                    htmlFor="message"
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                  >
+                    Your Message
                   </label>
                   <textarea
                     id="message"
@@ -122,49 +367,23 @@ export default function ContactPage() {
                     rows={4}
                     value={formData.message}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition resize-none"
-                    placeholder="Tell us about your project..."
+                    className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-amber-400 focus:border-amber-400 outline-none transition shadow-sm resize-none"
+                    placeholder="Tell us about your dream project..."
                   />
-                </div>
-                <button
+                </motion.div>
+
+                <motion.button
                   type="submit"
-                  className="w-full px-8 py-4 bg-amber-600 text-white font-semibold rounded-lg hover:bg-amber-700 transition-colors"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 1, type: 'spring', stiffness: 200 }}
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full px-8 py-5 bg-gradient-to-r from-amber-500 to-amber-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all"
                 >
-                  Request Free Estimate
-                </button>
+                  Send Request
+                </motion.button>
               </form>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5 }}
-              className="space-y-8"
-            >
-              <div>
-                <h3 className="text-xl font-bold text-gray-900 mb-4">Contact Info</h3>
-                <ul className="space-y-3 text-gray-600">
-                  <li className="flex items-center gap-3">
-                    <svg className="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                    </svg>
-                    +91 98765 43210
-                  </li>
-                  <li className="flex items-center gap-3">
-                    <svg className="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                    </svg>
-                    contact@example.com
-                  </li>
-                </ul>
-              </div>
-
-              <div>
-                <h3 className="text-xl font-bold text-gray-900 mb-4">Map</h3>
-                <div className="aspect-video bg-gray-200 rounded-lg flex items-center justify-center text-gray-500">
-                  Google Map Placeholder
-                </div>
-              </div>
             </motion.div>
           </div>
         </div>
