@@ -1,3 +1,4 @@
+// src/components/home/ServicesDetail.tsx
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 
@@ -48,27 +49,18 @@ export default function ServicesDetail() {
   return (
     <section className="py-16 md:py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-12"
-        >
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
-            WHAT WE DO
-          </h2>
-          <div className="w-20 h-1 bg-amber-600 mx-auto" />
-        </motion.div>
-
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+        {/* Add a scroll margin top to account for fixed navbar */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 scroll-mt-32">
           {services.map((service, i) => (
             <motion.div
               key={service.slug}
+              id={service.slug}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
               whileHover={{ y: -8 }}
+              className="scroll-mt-32" // Add scroll margin to each card
             >
               <Link
                 to={`/services#${service.slug}`}
