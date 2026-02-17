@@ -5,8 +5,6 @@ const offers = [
   {
     id: 'essential',
     name: 'Everything ESSENTIAL',
-    originalPrice: '₹ 8.85 Lac',
-    offerPrice: '₹ 6.37 Lac*',
     desc: 'Essential woodwork for a 2BHK',
     features: ['Modular kitchen', 'Wardrobes', 'TV unit', 'Basic flooring'],
     image: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=658&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
@@ -14,8 +12,6 @@ const offers = [
   {
     id: 'eleganza',
     name: 'ELEGANZA',
-    originalPrice: '₹ 15.84 Lac',
-    offerPrice: '₹ 11.41 Lac*',
     desc: 'Detailed woodwork for a 3BHK',
     features: ['Full modular kitchen', 'All wardrobes', 'Living room furniture', 'Dining set'],
     image: 'https://plus.unsplash.com/premium_photo-1676968002767-1f6a09891350?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
@@ -23,8 +19,6 @@ const offers = [
   {
     id: 'eleganza-plus',
     name: 'ELEGANZA Plus',
-    originalPrice: '₹ 24.03 Lac',
-    offerPrice: '₹ 16.82 Lac*',
     desc: 'Woodwork & beautifications for a 3BHK',
     features: ['Premium kitchen', 'Complete interiors', 'False ceiling', 'Lighting solutions'],
     image: 'https://images.unsplash.com/photo-1564078516393-cf04bd966897?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
