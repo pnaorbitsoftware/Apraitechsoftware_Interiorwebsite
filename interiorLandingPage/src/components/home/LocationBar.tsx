@@ -101,7 +101,7 @@ import { useState, useEffect } from 'react'
 const locations = [
   'BENGALURU', 'KERALA', 'CHENNAI', 'COIMBATORE', 
   'MANGALURU', 'HYDERABAD', 'PUNE', 'NAVI MUMBAI', 
-  'MUMBAI', 'UAE', 'AHMEDABAD'
+  'MUMBAI', 'AHMEDABAD'
 ]
 
 export default function LocationBar() {
