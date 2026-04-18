@@ -27,7 +27,7 @@ export default function Footer() {
   <img src="/logo.png" alt="logo" className="w-36 mb-4" />
 
   <p className="text-sm leading-relaxed text-gray-400">
-    Aparaitech Interior is a Pune-based company started in 2024. 
+    Aparaitech Interior is a Pune-based company started in 2024 pratik. 
     It is a fine mixture of architect and interior firm.
   </p>
 
